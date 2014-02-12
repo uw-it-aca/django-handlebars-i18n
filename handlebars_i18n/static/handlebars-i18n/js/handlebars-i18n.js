@@ -28,9 +28,7 @@ Handlebars.registerHelper("trans", function() {
     }
 
     function plural(key1, key2, count, obj) {
-        console.log(obj.data);
         var base = ngettext(key1, key2, count);
-        console.log("B: ", key1, key2, count, base);
         return interpolate(base, obj.data, true);
     }
 
