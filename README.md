@@ -27,8 +27,8 @@ The script is compressable, the catalog is not.
 
 Then in your handlebars templates you can start using the {{ trans }} tag.  
 
-    {{ trans "single value" }}
+    {{ trans "single value with %(name)s" }}
     
-    {{ trans "plural example" "using ngettext" count_variable }}
+    {{ trans "There is one item" "There are %(count_variable) items" count_variable }}
     
-The strings are given the handlebars context, so %(variable) values will be interpolated.    
+The strings are given the handlebars context, so %(variable)s values will be interpolated.    
