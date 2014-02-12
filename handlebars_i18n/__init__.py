@@ -1,0 +1,1 @@
+import handlebars_i18n.monkey_patch
