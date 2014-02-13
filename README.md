@@ -20,7 +20,7 @@ To use, you need to do the following:
 
 *note: you must have handlebars.js loaded on the page before the handlebars_i18n_scripts template tag*
 
-That will load 2 javascript files onto your page.  One can be compressed the other is (currently) dynamically generated.  To load them separately, you can use
+That will load 2 javascript files onto your page.  One can be compressed the other is dynamically generated.  To load them separately, you can use
 
     {% hb_i18_script %}
     {% i18n_catalog "app_name" %}
@@ -36,3 +36,10 @@ Then in your handlebars templates you can start using the {{ trans }} tag.
 The strings are given the handlebars context, so %(variable)s values will be interpolated.    
 
 Content comes from <app_name>/locale/<language>/LC_MESSAGES/djangojs.po, or if you're compiling message files, djangojs.mo.  For information on how Django determines locale, see https://docs.djangoproject.com/en/dev/topics/i18n/translation/  For more information on the underlying gettext library, and documentation of the .po files, see https://www.gnu.org/software/gettext/manual/
+
+## For production use
+
+Dynamically generating the catalog file is a bad idea on production hosts.  handlebars_i18n comes with a management command, collect_i18n_catalogs.  Running this will generate an offline catalog for each language django supports.  If the language doesn't have a catalog, one will be generated in the default language.  To use the offline catalogs, add this to your settings.py:
+
+    I18N_OFFLINE_CATALOGS = True 
+
