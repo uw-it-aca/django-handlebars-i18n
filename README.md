@@ -34,3 +34,5 @@ Then in your handlebars templates you can start using the {{ trans }} tag.
     {{ trans "There is one item" "There are %(count_variable) items" count_variable }}
     
 The strings are given the handlebars context, so %(variable)s values will be interpolated.    
+
+Content comes from <app_name>/locale/<language>/LC_MESSAGES/djangojs.po, or if you're compiling message files, djangojs.mo.  For information on how Django determines locale, see https://docs.djangoproject.com/en/dev/topics/i18n/translation/  For more information on the underlying gettext library, and documentation of the .po files, see https://www.gnu.org/software/gettext/manual/
