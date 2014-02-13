@@ -207,17 +207,20 @@ if settings.DEBUG or getattr(settings, "I18N_RELOAD_ON_CHANGE", False):
         return current_translation
 
 
-    django.utils.translation.trans_real.has_reload_i18n_setting = has_reload_i18n_setting
-    django.utils.translation.trans_real.purge_i18n_caches = purge_i18n_caches
-    django.utils.translation.trans_real.needs_compilation = needs_compilation
-    django.utils.translation.trans_real.compile_messages = compile_messages
-    django.utils.translation.trans_real.compile_message_file = compile_message_file
-    django.utils.translation.trans_real.translation = translation
-
     class TranslationError(Exception):
         msg = None
 
         def __init__(self, msg):
             self.msg = msg
         pass
+
+
+    django.utils.translation.trans_real.has_reload_i18n_setting = has_reload_i18n_setting
+    django.utils.translation.trans_real.purge_i18n_caches = purge_i18n_caches
+    django.utils.translation.trans_real.needs_compilation = needs_compilation
+    django.utils.translation.trans_real.compile_messages = compile_messages
+    django.utils.translation.trans_real.compile_message_file = compile_message_file
+    django.utils.translation.trans_real.translation = translation
+    django.utils.translation.trans_real.TranslationError = TranslationError
+
 

@@ -1,12 +1,14 @@
 import importlib
 import json
 import os
+import re
 import gettext as gettext_module
 
 from django import http
 from django.conf import settings
 from django.template import Context, Template
 from django.utils.translation import check_for_language, to_locale, get_language
+from django.utils.translation.trans_real import TranslationError
 
 
 from django.utils.encoding import smart_text
@@ -14,6 +16,7 @@ from django.utils.formats import get_format_modules, get_format
 from django.utils._os import upath
 from django.utils.http import is_safe_url
 from django.utils import six
+
 
 try:
     from django.utils.translation.trans_real import (compile_messages,
@@ -180,7 +183,6 @@ globals.get_format = django.get_format;
 {% endautoescape %}
 """
 
-
 def render_javascript_catalog(catalog=None, plural=None):
     template = Template(js_catalog_template)
     indent = lambda s: s.replace('\n', '\n ')
@@ -194,6 +196,18 @@ def render_javascript_catalog(catalog=None, plural=None):
 
     return http.HttpResponse(template.render(context), 'text/javascript')
 
+js_duplicate_key_error_template = """
+console.log("{{ error_string }}");
+"""
+
+def render_duplicate_error_js(error):
+    template = Template(js_duplicate_key_error_template)
+
+    error = error.replace("\n", "\\n")
+    context = Context({
+        "error_string": error
+    })
+    return http.HttpResponse(template.render(context), 'text/javascript')
 
 def get_javascript_catalog(locale, domain, packages):
     if has_dynamic_compile:
@@ -219,6 +233,7 @@ def get_javascript_catalog(locale, domain, packages):
             if has_dynamic_compile:
                 if needs_compilation(domain, path, 'en'):
                     compile_messages(domain, path, 'en')
+
             catalog = gettext_module.translation(domain, path, ['en'])
             t.update(catalog._catalog)
         except IOError:
@@ -325,7 +340,16 @@ deliver your JavaScript source from Django templates.
     if isinstance(packages, six.string_types):
         packages = packages.split('+')
 
-    catalog, plural = get_javascript_catalog(locale, domain, packages)
+    catalog = None
+    try:
+        catalog, plural = get_javascript_catalog(locale, domain, packages)
+    except TranslationError as ex:
+        # We know how to handle one specific type of error - so let's do
+        # something useful there.
+        if re.match(r'.*duplicate message definition', ex.msg):
+            return render_duplicate_error_js(ex.msg)
+
+        raise Exception(ex.msg)
     return render_javascript_catalog(catalog, plural)
 
 
