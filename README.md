@@ -18,6 +18,8 @@ To use, you need to do the following:
     
     {% handlebars_i18n_scripts "app_name" %}
 
+*note: you must have handlebars.js loaded on the page before the handlebars_i18n_scripts template tag*
+
 That will load 2 javascript files onto your page.  One can be compressed the other is (currently) dynamically generated.  To load them separately, you can use
 
     {% hb_i18_script %}
