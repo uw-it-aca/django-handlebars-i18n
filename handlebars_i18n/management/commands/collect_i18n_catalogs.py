@@ -21,6 +21,7 @@ from django.template import (Context, Template,
 from django.utils.importlib import import_module
 from django.conf.global_settings import LANGUAGES
 from handlebars_i18n.views import get_javascript_catalog, render_javascript_catalog
+from handlebars_i18n.utils import get_offline_catalog_path
 
 try:
     from django.template.loaders.cached import Loader as CachedLoader
@@ -39,8 +40,7 @@ class Command(NoArgsCommand):
             catalog, plural = get_javascript_catalog(lang_code, 'djangojs', [app])
             response = render_javascript_catalog(catalog, plural)
 
-            file_name = "%s.js" % lang_code
-            output_path = os.path.join(settings.STATIC_ROOT, "i18n", app, file_name)
+            output_path = get_offline_catalog_path(app, lang_code)
             basedir = os.path.dirname(output_path)
             if not os.path.isdir(basedir):
                 os.makedirs(basedir)
