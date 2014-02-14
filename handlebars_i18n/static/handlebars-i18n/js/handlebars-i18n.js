@@ -23,11 +23,19 @@ Handlebars.registerHelper("trans", function() {
     }
 
     function single(key, obj) {
+        if (undefined === key) {
+            console.log("Undefined value for trans - is your msgid in quotes?");
+            return "";
+        }
         var base = gettext(key);
         return interpolate(base, obj.data, true);
     }
 
     function plural(key1, key2, count, obj) {
+        if (undefined === key) {
+            console.log("Undefined value for trans - is your msgid in quotes?");
+            return "";
+        }
         var base = ngettext(key1, key2, count);
         return interpolate(base, obj.data, true);
     }
