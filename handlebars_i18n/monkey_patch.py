@@ -27,6 +27,8 @@ from django.utils.translation.trans_real import to_locale, DjangoTranslation
 
 from django.conf import settings
 
+_translations = {}
+
 if settings.DEBUG or getattr(settings, "I18N_RELOAD_ON_CHANGE", False):
     def has_reload_i18n_setting():
         """If DEBUG or I18N_RELOAD_ON_CHANGE is True, return True."""
