@@ -32,7 +32,7 @@ Handlebars.registerHelper("trans", function() {
     }
 
     function plural(key1, key2, count, obj) {
-        if (undefined === key) {
+        if (undefined === key1) {
             console.log("Undefined value for trans - is your msgid in quotes?");
             return "";
         }
