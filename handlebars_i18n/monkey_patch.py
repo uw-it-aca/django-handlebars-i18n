@@ -209,12 +209,6 @@ if settings.DEBUG or getattr(settings, "I18N_RELOAD_ON_CHANGE", False):
         return current_translation
 
 
-    class TranslationError(Exception):
-        msg = None
-
-        def __init__(self, msg):
-            self.msg = msg
-        pass
 
 
     django.utils.translation.trans_real.has_reload_i18n_setting = has_reload_i18n_setting
@@ -223,6 +217,12 @@ if settings.DEBUG or getattr(settings, "I18N_RELOAD_ON_CHANGE", False):
     django.utils.translation.trans_real.compile_messages = compile_messages
     django.utils.translation.trans_real.compile_message_file = compile_message_file
     django.utils.translation.trans_real.translation = translation
+
+
+try:
+    from django.utils.translation.trans_real import TranslationError
+except Exception as ex:
+    class TranslationError(Exception):
+        pass
+
     django.utils.translation.trans_real.TranslationError = TranslationError
-
-

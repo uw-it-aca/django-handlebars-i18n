@@ -346,8 +346,8 @@ deliver your JavaScript source from Django templates.
     except TranslationError as ex:
         # We know how to handle one specific type of error - so let's do
         # something useful there.
-        if re.match(r'.*duplicate message definition', ex.msg):
-            return render_duplicate_error_js(ex.msg)
+        if re.match(r'.*duplicate message definition', ex.args[0]):
+            return render_duplicate_error_js(ex.args[0])
 
         raise Exception(ex.msg)
     return render_javascript_catalog(catalog, plural)
