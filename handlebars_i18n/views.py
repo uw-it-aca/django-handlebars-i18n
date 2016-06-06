@@ -1,4 +1,8 @@
-import importlib
+try:
+    from importlib import import_module
+except ImportError:
+    # Django versions < 1.9
+    from django.utils.importlib import import_module
 import json
 import os
 import re
@@ -222,7 +226,7 @@ def get_javascript_catalog(locale, domain, packages):
     en_catalog_missing = True
     # paths of requested packages
     for package in packages:
-        p = importlib.import_module(package)
+        p = import_module(package)
         path = os.path.join(os.path.dirname(upath(p.__file__)), 'locale')
         paths.append(path)
     # add the filesystem paths listed in the LOCALE_PATHS setting
@@ -351,5 +355,3 @@ deliver your JavaScript source from Django templates.
 
         raise Exception(ex.msg)
     return render_javascript_catalog(catalog, plural)
-
-

@@ -1,0 +1,17 @@
+sudo: false
+language: python
+python:
+  - "2.7"
+  - "3.4"
+install: pip install -r requirements.txt
+before_script:
+  - pip install coverage
+  - pip install python-coveralls
+  - pip install pep8
+  - cp travis-ci/manage.py manage.py
+script:
+  - pep8 handlebars_i18n/ monkey_patch.py,views.py,management/,templatetags/
+  - coverage run --source=handlebars_i18n/ manage.py test handlebars_i18n
+after_script:
+  - coveralls
+notifications:

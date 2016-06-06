@@ -18,7 +18,12 @@ from django.utils.encoding import force_text
 from django.core.management.base import NoArgsCommand
 from django.template import (Context, Template,
                              TemplateDoesNotExist, TemplateSyntaxError)
-from django.utils.importlib import import_module
+try:
+    from importlib import import_module
+except ImportError:
+    # Django versions < 1.9
+    from django.utils.importlib import import_module
+
 from django.conf.global_settings import LANGUAGES
 from handlebars_i18n.views import get_javascript_catalog, render_javascript_catalog
 from handlebars_i18n.utils import get_offline_catalog_path

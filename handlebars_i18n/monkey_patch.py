@@ -9,7 +9,11 @@ from threading import local
 import warnings
 import codecs
 
-from django.utils.importlib import import_module
+try:
+    from importlib import import_module
+except ImportError:
+    # Django versions < 1.9
+    from django.utils.importlib import import_module
 from django.core.management.utils import find_command, popen_wrapper
 from django.dispatch import receiver
 from django.test.signals import setting_changed
