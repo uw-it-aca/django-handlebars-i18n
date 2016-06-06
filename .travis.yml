@@ -10,7 +10,7 @@ before_script:
   - pip install pep8
   - cp travis-ci/manage.py manage.py
 script:
-  - pep8 handlebars_i18n/ --exclude=monkey_patch.py,views.py,management/,templatetags/
+  - pep8 --exclude=monkey_patch.py,views.py,management/,templatetags/ handlebars_i18n/
   - coverage run --source=handlebars_i18n/ manage.py test handlebars_i18n
 after_script:
   - coveralls
