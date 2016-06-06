@@ -23,8 +23,9 @@ from django.utils import six
 
 
 try:
-    from django.utils.translation.trans_real import (compile_messages,
-        needs_compilation, has_reload_i18n_setting, purge_i18n_caches)
+    from django.utils.translation.trans_real import (
+        compile_messages, needs_compilation, has_reload_i18n_setting,
+        purge_i18n_caches)
 
     has_dynamic_compile = True
 except Exception as ex:
@@ -187,6 +188,7 @@ globals.get_format = django.get_format;
 {% endautoescape %}
 """
 
+
 def render_javascript_catalog(catalog=None, plural=None):
     template = Template(js_catalog_template)
     indent = lambda s: s.replace('\n', '\n ')
@@ -204,6 +206,7 @@ js_duplicate_key_error_template = """
 console.log("{{ error_string }}");
 """
 
+
 def render_duplicate_error_js(error):
     template = Template(js_duplicate_key_error_template)
 
@@ -212,6 +215,7 @@ def render_duplicate_error_js(error):
         "error_string": error
     })
     return http.HttpResponse(template.render(context), 'text/javascript')
+
 
 def get_javascript_catalog(locale, domain, packages):
     if has_dynamic_compile:
