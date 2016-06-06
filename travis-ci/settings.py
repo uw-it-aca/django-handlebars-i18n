@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'templatetag_handlebars',
 )
 
 MIDDLEWARE_CLASSES = (
